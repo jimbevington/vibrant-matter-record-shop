@@ -1,0 +1,17 @@
+<a class="left-side italic-text" href="/artists/<%= @artist.id %>">
+  back to Artist
+</a>
+
+<h3 class="no-bottom-space">Edit Artist</h3>
+
+<!-- post FORM data to UPDATE POST method -->
+<form method="post" action="/artists/<%= @artist.id %>/update" >
+
+  <label for="name">Artist Name:</label>
+  
+  <!-- get Artist name for editing  -->
+  <input type="text" name="name" value="<%= @artist.name %>">
+
+  <input type="submit" value="Save Changes">
+
+</form>

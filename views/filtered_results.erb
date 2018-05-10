@@ -1,0 +1,112 @@
+<h3><%= @stock_level.capitalize %> Stock</h3>
+
+<a class="italic-text" href="../inventory">back to Inventory</a>
+
+
+<% if @albums.length() > 0 %>
+
+  <!-- Create Table if Items to display -->
+
+  <table class="big-table">
+    <tr>
+      <th>ID</th>
+      <th>Album</th>
+      <th>Artist</th>
+      <th>Markup %</th>
+      <th>Stock Level</th>
+      <th></th>
+    </tr>
+
+    <!-- Loop through Album objects to get data -->
+    <% for album in @albums %>
+
+      <!-- filter out Out-of-Stock (i.e quantity = 0) Albums -->
+      <% if album.stock_level == @stock_level %>
+
+      <!-- Insert data into table rows -->
+        <tr>
+
+          <td><%= album.id %> </td>
+
+          <td class="italic-text">
+            <!-- make Title a link -->
+            <a class="no-underline" href="/albums/<%= album.id %>">
+              <%= album.title %>
+            </a>
+          </td>
+
+          <td>
+            <!-- get Artist name from Album ID, make link -->
+            <a href="/artists/<%= album.artist_id %>">
+              <%= Artist.find_by_id(album.artist_id).name %>
+            </a>
+          </td>
+
+          <!-- calculate Markup -->
+          <td class="center-text"><%= album.markup %></td>
+
+          <!-- insert a CSS class based on Stock Level -->
+          <td class="center-text
+                    <%= album.stock_level %>">
+            <%= album.stock_level %>
+          </td>
+
+          <td class="center-text">
+            <!-- link to Album page -->
+            <a href="/albums/<%= album.id %>">More Info</a>
+          </td>
+
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+
+<% else %>
+  <!-- print if Search returns nothing -->
+  <p>No Results</p>
+
+<% end %>
+
+<form class="search_form no-padding no-margin"
+method="post" action="/inventory/filter">
+  <label for="filter_by">Filter by Stock Level</label>
+  <select name="stock_level" id="stock_level">
+
+    <!-- If statements sets SELECTED option based on last choice -->
+    <option value="high"
+
+      <% if @stock_level == 'high' %>
+        selected
+      <% end %>
+    >
+      High
+    </option>
+
+    <option value="medium"
+
+      <% if @stock_level == 'medium' %>
+        selected
+      <% end %>
+    >
+      Medium
+    </option>
+
+    <option value="low"
+      <% if @stock_level == 'low' %>
+        selected
+      <% end %>
+    >
+      Low
+    </option>
+
+    <option value="out-of-stock"
+      <% if @stock_level == 'out-of-stock' %>
+        selected
+      <% end %>
+    >
+      Out of Stock
+    </option>
+
+  </select>
+  <input type="submit" value="Go">
+</form>

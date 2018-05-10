@@ -1,0 +1,67 @@
+<a class="left-side italic-text" href="../inventory">back to Inventory</a>
+
+<h3 class="no-bottom-space top-space">Artist Info</h3>
+
+<h4 class="center-text no-bottom-space">
+  Name: <span class="italic-text"><%= @artist.name %></span>
+</h4>
+
+<!-- check if the Artist has Albums -->
+<% if @albums.length() >= 1 %>
+
+  <!-- print Albums if present -->
+  <table>
+
+    <tr>
+      <th>ID</th>
+      <th>Album Title</th>
+      <th>Stock Level</th>
+    </tr>
+
+    <!-- loop through albums to get data -->
+    <% for album in @albums %>
+
+      <tr>
+
+        <td><%= album.id %></td>
+
+        <!-- make Title a link -->
+        <td class="italic-text">
+          <a href="/albums/<%= album.id %>">
+            <%= album.title %>
+          </a>
+        </td>
+
+        <!-- assign CSS class based on Stock Level -->
+        <td class="center-text
+                  <%= album.stock_level %>">
+            <%= album.stock_level %>
+        </td>
+
+      </tr>
+    <% end %>
+  </table>
+
+<% else %> <!-- post message if no Albums -->
+
+  <p>No Albums in stock.</p>
+
+<% end %>
+
+<!-- EDIT and DELETE buttons -->
+<section class="flex_item_compact">
+
+  <a class="big_link no_underline" href="./<%= @artist.id %>/edit">Edit</a>
+
+  <a class="big_link no_underline"
+     href="./<%= @artist.id %>/delete_are_you_sure">
+     Delete
+  </a>
+
+  <!-- Note:- this could carry Artist Name with it -->
+  <a class="big_link no_underline"
+     href="../albums/new">
+     Add New Album
+  </a>
+
+</section>

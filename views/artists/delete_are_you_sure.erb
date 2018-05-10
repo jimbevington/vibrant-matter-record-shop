@@ -1,0 +1,13 @@
+<!-- warning msg -->
+<h4 class="no-bottom-space top-space">
+  Are you sure you want to delete <%= @artist.name.upcase! %> and all their Albums?
+</h4>
+
+<!-- form sends DELETE POST message -->
+<form class="no-border no-padding no-margin"
+      action="./delete" method="post">
+
+  <input type="submit" name="delete" value="Yes">
+  <a href="../<%= @artist.id %>">Back to Artist</a>
+
+</form>

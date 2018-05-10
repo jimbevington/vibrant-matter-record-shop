@@ -1,0 +1,127 @@
+<h3>Inventory</h3>
+
+<!-- sort Inventory form -->
+<form class="small_form no-border no-margin no-padding row_form"
+      method="post"  action="/inventory">
+
+  <label class="no-bottom-space" for="order-by">Sort by:</label>
+
+  <select name="field" id="field">
+
+    <!-- If statments set SELECTED OPTION based on last selection -->
+    <option value="id"
+      <% if @ordered_field == 'id' %>
+        selected
+      <% end %>
+    >
+      Album ID
+    </option>
+
+    <option value="title"
+      <% if @ordered_field == 'title' %>
+        selected
+      <% end %>
+    >
+      Album Title
+    </option>
+
+    <option value="quantity"
+      <% if @ordered_field == 'quantity' %>
+        selected
+      <% end %>
+    >
+      Stock Level
+    </option>
+  </select>
+
+  <input type="submit" value="Sort">
+
+</form>
+
+<!-- link to OUT of STOCK items -->
+<a class="italic-text small-text no-bottom-space extra-top-padding button"
+   href="/inventory/out_of_stock">
+   view Out-Of-Stock items
+</a>
+
+<!-- Inventory table -->
+<table class="big-table">
+
+  <tr>
+    <th>ID</th>
+    <th>Album</th>
+    <th>Artist</th>
+    <th>Markup %</th>
+    <th>Stock Level</th>
+    <th></th>
+  </tr>
+
+  <!-- loop through Albums for data -->
+  <% for album in @albums %>
+
+    <!-- filter out Out of Stock albums -->
+    <% unless album.stock_level == 'out-of-stock' %>
+
+      <tr>
+
+        <td><%= album.id %> </td>
+
+        <td class="italic-text">
+          <!-- make Title a link -->
+          <a class="no-underline" href="/albums/<%= album.id %>">
+            <%= album.title %>
+          </a>
+        </td>
+
+        <td>
+          <!-- get Artist name from Album ID, make link -->
+          <a href="/artists/<%= album.artist_id %>">
+            <%= Artist.find_by_id(album.artist_id).name %>
+          </a>
+        </td>
+
+        <!-- calculate Markup -->
+        <td class="center-text"><%= album.markup %></td>
+
+        <!-- insert a CSS class based on Stock Level -->
+        <td class="center-text
+                  <%= album.stock_level %>">
+          <%= album.stock_level %>
+        </td>
+
+        <td class="center-text">
+          <!-- link to Album page -->
+          <a href="/albums/<%= album.id %>">More Info</a>
+        </td>
+
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<!-- Search Form -->
+<form class="search_form no-padding no-margin"
+      method="post" action="/inventory/search">
+
+  <label for="search_term">Search Albums:</label>
+  <input type="text" name="term">
+  <input type="submit" value="Search">
+
+</form>
+
+<!-- Filter by Stock level -->
+<form class="search_form no-padding no-margin"
+      method="post" action="/inventory/filter">
+
+  <label for="filter_by">Filter by Stock Level</label>
+
+  <select name="stock_level" id="stock_level">
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+    <option value="out-of-stock">Out of Stock</option>
+  </select>
+
+  <input type="submit" value="Go">
+
+</form>

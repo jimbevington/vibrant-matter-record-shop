@@ -1,0 +1,56 @@
+<h3>Out of Stock</h3>
+
+<a class="italic-text" href="../inventory">back to Inventory</a>
+
+<table class="big-table">
+  <tr>
+    <th>ID</th>
+    <th>Album</th>
+    <th>Artist</th>
+    <th>Markup %</th>
+    <th>Stock Level</th>
+    <th></th>
+  </tr>
+
+  <!-- loop through Albums for data -->
+  <% for album in @albums %>
+
+    <!-- get Data if Album OUT OF STOCK -->
+    <% if album.stock_level == 'out-of-stock' %>
+
+      <tr>
+
+        <td><%= album.id %> </td>
+
+        <td class="italic-text">
+          <!-- make album title a link -->
+          <a class="no-underline" href="/albums/<%= album.id %>">
+            <%= album.title %>
+          </a>
+        </td>
+
+        <!-- get Artist name from Album ID, make link -->
+        <td>
+          <a href="/artists/<%= album.artist_id %>">
+            <%= Artist.find_by_id(album.artist_id).name %>
+          </a>
+        </td>
+
+        <!-- calculate markup -->
+        <td class="center-text"><%= album.markup %></td>
+
+        <!-- insert a CSS class based on Stock Level -->
+        <td class="center-text
+          <%= album.stock_level %>">
+            <%= album.stock_level %>
+        </td>
+
+        <td class="center-text">
+          <!-- link to Album page -->
+          <a href="/albums/<%= album.id %>">More Info</a>
+        </td>
+
+      </tr>
+    <% end %>
+  <% end %>
+</table>

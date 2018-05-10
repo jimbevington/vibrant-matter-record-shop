@@ -1,0 +1,78 @@
+<h3 >Search Results</h3>
+
+<a class="italic-text" href="../inventory">back to Inventory</a>
+
+
+<% if @albums.length() > 0 %>
+
+  <!-- Create Table if Items to display -->
+
+  <table class="big-table">
+    <tr>
+      <th>ID</th>
+      <th>Album</th>
+      <th>Artist</th>
+      <th>Markup %</th>
+      <th>Stock Level</th>
+      <th></th>
+    </tr>
+
+    <!-- Loop through Album objects to get data -->
+    <% for album in @albums %>
+
+      <!-- filter out Out-of-Stock (i.e quantity = 0) Albums -->
+      <% unless album.stock_level == 'out-of-stock' %>
+
+      <!-- Insert data into table rows -->
+        <tr>
+
+          <td><%= album.id %> </td>
+
+          <td class="italic-text">
+            <!-- make Title a link -->
+            <a class="no-underline" href="/albums/<%= album.id %>">
+              <%= album.title %>
+            </a>
+          </td>
+
+          <td>
+            <!-- get Artist name from Album ID, make link -->
+            <a href="/artists/<%= album.artist_id %>">
+              <%= Artist.find_by_id(album.artist_id).name %>
+            </a>
+          </td>
+
+          <!-- calculate Markup -->
+          <td class="center-text"><%= album.markup %></td>
+
+          <!-- insert a CSS class based on Stock Level -->
+          <td class="center-text
+                    <%= album.stock_level %>">
+            <%= album.stock_level %>
+          </td>
+
+          <td class="center-text">
+            <!-- link to Album page -->
+            <a href="/albums/<%= album.id %>">More Info</a>
+          </td>
+
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+
+<% else %>
+  <!-- print if Search returns nothing -->
+  <p>No Results</p>
+
+<% end %>
+
+<!-- Search Form -->
+<form class="search_form no-padding no-margin"
+      method="post" action="/inventory/search">
+
+  <label class="no-bottom-space" for="search_term">Search Albums:</label>
+  <input class="no-bottom-space" type="text" name="term">
+  <input type="submit" value="Search">
+
+</form>

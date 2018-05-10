@@ -1,0 +1,30 @@
+<h3>Create New Album</h3>
+
+<!-- form sends data to POST method -->
+<form method="post" action="/albums" >
+
+  <label for="title">Title:</label>
+  <input type="text" name="title">
+
+  <label for="artist">Artist:</label>
+  <input type="text" name="artist">
+
+  <label for="genre">Genre:</label>
+  <input type="text" name="genre">
+
+  <label for="quantity">Quantity:</label>
+  <input type="number" name="quantity">
+
+  <label for="buy_price">
+    Buy Price: <span class="italic-text small-text"> (min. 1)</span>
+  </label>
+  <input type="number" name="buy_price" min="1">
+
+  <label for="sell_price">
+    Sell Price: <span class="italic-text small-text"> (min. 1)</span>
+  </label>
+  <input type="number" name="sell_price" min="1">
+
+  <input type="submit" value="Create">
+
+</form>
