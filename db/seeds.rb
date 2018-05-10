@@ -8,7 +8,7 @@ class Seeds
   def self.seedData()
 
     # delete all the artists prior to loading
-    Artist.delete_all()
+    # Artist.delete_all()
 
     artist1 = Artist.new({
       'name' => 'The Fall'
@@ -177,7 +177,7 @@ class Seeds
     albums = [album1, album2, album3, album4, album5, album6, album7, album8, album9, album10, album11, album12, album13, album14, album15, album16]
     # save all the albums
     albums.each{|album| album.save()}
-    
+
   end
 
 end
